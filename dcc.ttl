@@ -1,0 +1,228 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix schema: <https://schema.org/> .
+@prefix untp-core: <https://test.uncefact.org/vocabulary/untp/core/0/> .
+@prefix untp-dcc: <https://test.uncefact.org/vocabulary/untp/dcc/0/> .
+
+untp-dcc:ConformityAssessment a rdfs:Class ;
+  rdfs:label "ConformityAssessment" ;
+  rdfs:comment "A specific assessment about the product or facility against a specific specification.  Eg the carbon intensity of a given product or batch." ;
+  rdfs:subClassOf "untp-core:Declaration" .
+
+untp-dcc:ConformityAttestation a rdfs:Class ;
+  rdfs:label "ConformityAttestation" ;
+  rdfs:comment "A conformity attestation issued by a competent body that defines one or more assessments (eg carbon intensity) about a product (eg battery) against a specification (eg LCA method) defined in a standard or regulation." ;
+  rdfs:subClassOf "untp-core:Attestation" .
+
+untp-dcc:DigitalConformityCredential a rdfs:Class ;
+  rdfs:label "DigitalConformityCredential" ;
+  rdfs:comment "A conformity attestation issued by a competent body that defines one or more assessments (eg carbon intensity) about a product (eg batttery) against a specification (eg LCA method) defined in a standard or regulation. " ;
+  rdfs:subClassOf "untp-core:VerifiableCredential" .
+
+untp-dcc:FacilityVerification a rdfs:Class ;
+  rdfs:label "FacilityVerification" ;
+  rdfs:comment "The facility which is the subject of this conformity assessment" .
+
+untp-dcc:ProductVerification a rdfs:Class ;
+  rdfs:label "ProductVerification" ;
+  rdfs:comment "The product which is the subject of this conformity assessment" .
+
+untp-dcc:RenderTemplate2024 a rdfs:Class ;
+  rdfs:label "RenderTemplate2024" ;
+  rdfs:comment "The organisation that is the subject of this conformity assessment." ;
+  rdfs:subClassOf "untp-core:RenderTemplate2024" .
+
+untp-dcc:WebRenderingTemplate2022 a rdfs:Class ;
+  rdfs:label "WebRenderingTemplate2022" ;
+  rdfs:comment "A simple (though non-standard) embedded template." ;
+  rdfs:subClassOf "untp-core:WebRenderingTemplate2022" .
+
+untp-dcc:IDverifiedByCAB a owl:DatatypeProperty, rdf:Property ;
+  rdfs:label "IDverifiedByCAB" ;
+  rdfs:comment "Indicates whether the conformity assessment body has verified the identity of the facility which is the subject of the assessment.", "Indicates whether the conformity assessment body has verified the identity product that is the subject of the assessment." ;
+  schema:domainIncludes untp-dcc:FacilityVerification, untp-dcc:ProductVerification ;
+  schema:rangeIncludes xsd:boolean .
+
+untp-dcc:assessedFacility a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "assessedFacility" ;
+  rdfs:comment "The list of facilities that are the object of this conformity assessment." ;
+  schema:domainIncludes untp-dcc:ConformityAssessment ;
+  schema:rangeIncludes untp-dcc:FacilityVerification .
+
+untp-dcc:assessedOrganisation a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "assessedOrganisation" ;
+  rdfs:comment "The organisation that is the object of this assessment." ;
+  schema:domainIncludes untp-dcc:ConformityAssessment ;
+  schema:rangeIncludes untp-core:Party .
+
+untp-dcc:assessedProduct a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "assessedProduct" ;
+  rdfs:comment "The list of products that are the object of this conformity assessment" ;
+  schema:domainIncludes untp-dcc:ConformityAssessment ;
+  schema:rangeIncludes untp-dcc:ProductVerification .
+
+untp-dcc:assessment a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "assessment" ;
+  rdfs:comment "The list of specific assessments made within this conformity attestation." ;
+  schema:domainIncludes untp-dcc:ConformityAttestation ;
+  schema:rangeIncludes untp-dcc:ConformityAssessment .
+
+untp-dcc:assessmentCriteria a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "assessmentCriteria" ;
+  rdfs:comment "The specification against which the assessment is made." ;
+  schema:domainIncludes untp-dcc:ConformityAssessment ;
+  schema:rangeIncludes untp-core:assessmentCriteria .
+
+untp-dcc:assessmentDate a owl:DatatypeProperty, rdf:Property ;
+  rdfs:label "assessmentDate" ;
+  rdfs:comment "The date on which this assessment was made. " ;
+  schema:domainIncludes untp-dcc:ConformityAssessment ;
+  schema:rangeIncludes xsd:string .
+
+untp-dcc:assessmentLevel a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "assessmentLevel" ;
+  rdfs:comment "Assurance pertaining to assessment (any authority or support for the assessment process)" ;
+  schema:domainIncludes untp-dcc:ConformityAttestation ;
+  schema:rangeIncludes untp-dcc:assessmentLevelCode .
+
+untp-dcc:assessorLevel a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "assessorLevel" ;
+  rdfs:comment "Assurance code pertaining to assessor (relation to the object under assessment)" ;
+  schema:domainIncludes untp-dcc:ConformityAttestation ;
+  schema:rangeIncludes untp-dcc:assessorLevelCode .
+
+untp-dcc:attestationType a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "attestationType" ;
+  rdfs:comment "The type of criterion (optional or mandatory)." ;
+  schema:domainIncludes untp-dcc:ConformityAttestation ;
+  schema:rangeIncludes untp-dcc:attestationTypeCode .
+
+untp-dcc:auditableEvidence a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "auditableEvidence" ;
+  rdfs:comment "Auditable evidence supporting this assessment such as raw measurements, supporting documents. This is usually private data and would normally be encrypted." ;
+  schema:domainIncludes untp-dcc:ConformityAttestation ;
+  schema:rangeIncludes untp-core:SecureLink .
+
+untp-dcc:auditor a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "auditor" ;
+  rdfs:comment "The person or organisations that performed this assessment (if different to the issuer of the parent attestation)" ;
+  schema:domainIncludes untp-dcc:ConformityAssessment ;
+  schema:rangeIncludes untp-core:Party .
+
+untp-dcc:authorisation a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "authorisation" ;
+  rdfs:comment "The authority under which a conformity claim is issued.  For example a national accreditation authority may authorise a test lab to issue test certificates about a product against a standard.  " ;
+  schema:domainIncludes untp-dcc:ConformityAttestation ;
+  schema:rangeIncludes untp-core:Endorsement .
+
+untp-dcc:conformance a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "conformance" ;
+  rdfs:comment "An indicator of whether or not the claim or assesment conforms to the regulatory or standard criteria." ;
+  schema:domainIncludes untp-dcc:ConformityAssessment ;
+  schema:rangeIncludes untp-core:conformance .
+
+untp-dcc:conformityCertificate a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "conformityCertificate" ;
+  rdfs:comment "A reference to the human / printable version of this conformity attestation - typically represented as a PDF document. The document may have more details than are represented in the digital attestation." ;
+  schema:domainIncludes untp-dcc:ConformityAttestation ;
+  schema:rangeIncludes untp-core:SecureLink .
+
+untp-dcc:conformityTopic a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "conformityTopic" ;
+  rdfs:comment "The conformity topic category for this assessment (eg vocabulary.uncefact.org/sustainability/emissions)" ;
+  schema:domainIncludes untp-dcc:ConformityAssessment ;
+  schema:rangeIncludes untp-dcc:conformityTopicCode .
+
+untp-dcc:declaredValue a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "declaredValue" ;
+  rdfs:comment "The list of specific values measured as part of this assessment (eg tensile strength)" ;
+  schema:domainIncludes untp-dcc:ConformityAssessment ;
+  schema:rangeIncludes untp-core:declaredValue .
+
+untp-dcc:description a owl:DatatypeProperty, rdf:Property ;
+  rdfs:label "description" ;
+  rdfs:comment "A textual description of the declaration being made.", "A textual description of the scope or purpose of this conformity attestation" ;
+  schema:domainIncludes untp-dcc:ConformityAssessment, untp-dcc:ConformityAttestation ;
+  schema:rangeIncludes xsd:string .
+
+untp-dcc:digestMultibase a owl:DatatypeProperty, rdf:Property ;
+  rdfs:label "digestMultibase" ;
+  rdfs:comment "Used for resource integrity and/or validation of the inline `template`" ;
+  schema:domainIncludes untp-dcc:RenderTemplate2024 ;
+  schema:rangeIncludes xsd:string .
+
+untp-dcc:facility a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "facility" ;
+  rdfs:comment "The physical site (eg farm or factory) where the product or materials was produced." ;
+  schema:domainIncludes untp-dcc:FacilityVerification ;
+  schema:rangeIncludes untp-core:Facility .
+
+untp-dcc:id a owl:DatatypeProperty, rdf:Property ;
+  rdfs:label "id" ;
+  rdfs:comment "A unique identifier for the declaration. Often this will be an extension of the product.id or attestation.id. But could be a UUID.", "The globally unique ID of this conformity attestation." ;
+  schema:domainIncludes untp-dcc:ConformityAssessment, untp-dcc:ConformityAttestation ;
+  schema:rangeIncludes xsd:string .
+
+untp-dcc:issuedToParty a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "issuedToParty" ;
+  rdfs:comment "The party to whom the conformity attestation was issued." ;
+  schema:domainIncludes untp-dcc:ConformityAttestation ;
+  schema:rangeIncludes untp-core:Party .
+
+untp-dcc:mediaQuery a owl:DatatypeProperty, rdf:Property ;
+  rdfs:label "mediaQuery" ;
+  rdfs:comment "Media query as defined in https://www.w3.org/TR/mediaqueries-4/" ;
+  schema:domainIncludes untp-dcc:RenderTemplate2024 ;
+  schema:rangeIncludes xsd:string .
+
+untp-dcc:mediaType a owl:DatatypeProperty, rdf:Property ;
+  rdfs:label "mediaType" ;
+  rdfs:comment "content/media type for (possible) conneg on the above URL and certainly for display use" ;
+  schema:domainIncludes untp-dcc:RenderTemplate2024 ;
+  schema:rangeIncludes xsd:string .
+
+untp-dcc:name a owl:DatatypeProperty, rdf:Property ;
+  rdfs:label "name" ;
+  rdfs:comment "A human readable description of this conformity attestation", "A name that describes the specific assessment", "Human facing display name for selection", "Human facing display name for template" ;
+  schema:domainIncludes untp-dcc:ConformityAssessment, untp-dcc:ConformityAttestation, untp-dcc:RenderTemplate2024, untp-dcc:WebRenderingTemplate2022 ;
+  schema:rangeIncludes xsd:string .
+
+untp-dcc:product a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "product" ;
+  rdfs:comment "The ProductInformation class encapsulates detailed information regarding a specific product, including its identification details, manufacturer, and other pertinent details." ;
+  schema:domainIncludes untp-dcc:ProductVerification ;
+  schema:rangeIncludes untp-core:Product .
+
+untp-dcc:referenceRegulation a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "referenceRegulation" ;
+  rdfs:comment "The reference to the regulation that defines the assessment criteria" ;
+  schema:domainIncludes untp-dcc:ConformityAssessment ;
+  schema:rangeIncludes untp-core:referenceRegulation .
+
+untp-dcc:referenceStandard a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "referenceStandard" ;
+  rdfs:comment "The reference to the standard that defines the specification / criteria" ;
+  schema:domainIncludes untp-dcc:ConformityAssessment ;
+  schema:rangeIncludes untp-core:referenceStandard .
+
+untp-dcc:scope a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "scope" ;
+  rdfs:comment "The scheme(s) under which this conformity assesment is issued. " ;
+  schema:domainIncludes untp-dcc:ConformityAttestation ;
+  schema:rangeIncludes untp-core:ConformityScheme .
+
+untp-dcc:template a owl:DatatypeProperty, rdf:Property ;
+  rdfs:label "template" ;
+  rdfs:comment "An inline template field ", "An inline template field for use cases where remote retrieval of a render method is suboptimal" ;
+  schema:domainIncludes untp-dcc:RenderTemplate2024, untp-dcc:WebRenderingTemplate2022 ;
+  schema:rangeIncludes xsd:string .
+
+untp-dcc:url a owl:DatatypeProperty, rdf:Property ;
+  rdfs:label "url" ;
+  rdfs:comment "URL for remotely hosted template" ;
+  schema:domainIncludes untp-dcc:RenderTemplate2024 ;
+  schema:rangeIncludes xsd:string .
+
+

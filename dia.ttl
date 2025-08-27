@@ -1,0 +1,128 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix schema: <https://schema.org/> .
+@prefix untp-core: <https://test.uncefact.org/vocabulary/untp/core/0/> .
+@prefix untp-dia: <https://test.uncefact.org/vocabulary/untp/dia/0/> .
+
+untp-dia:DigitalIdentityAnchor a rdfs:Class ;
+  rdfs:label "DigitalIdentityAnchor" ;
+  rdfs:comment "The Digital Identity Anchor (DIA) is a very simple credential that is issued by a trusted authority and asserts an equivalence between a member identity as known to the authority (eg a VAT number) and one or more decentralised identifiers (DIDs) held by the member.  " ;
+  rdfs:subClassOf "untp-core:VerifiableCredential" .
+
+untp-dia:RegisteredIdentity a rdfs:Class ;
+  rdfs:label "RegisteredIdentity" ;
+  rdfs:comment "The identity anchor is a mapping between a registery member identity and one or more decentralised identifiers owned by the member. It may also list a set of membership scopes." .
+
+untp-dia:RegistryTypeCodeList a rdfs:Class ;
+  rdfs:label "RegistryTypeCodeList" ;
+  rdfs:comment "A registry category code." .
+
+untp-dia:RenderTemplate2024 a rdfs:Class ;
+  rdfs:label "RenderTemplate2024" ;
+  rdfs:comment "A single template format focused render method--where the content/media type decision becomes secondary (and is expressed separately).See https://github.com/w3c-ccg/vc-render-method/issues/9" ;
+  rdfs:subClassOf "untp-core:RenderTemplate2024" .
+
+untp-dia:WebRenderingTemplate2022 a rdfs:Class ;
+  rdfs:label "WebRenderingTemplate2022" ;
+  rdfs:comment "A simple (though non-standard) embedded template." ;
+  rdfs:subClassOf "untp-core:WebRenderingTemplate2022" .
+
+untp-dia:digestMultibase a owl:DatatypeProperty, rdf:Property ;
+  rdfs:label "digestMultibase" ;
+  rdfs:comment "Used for resource integrity and/or validation of the inline `template`" ;
+  schema:domainIncludes untp-dia:RenderTemplate2024 ;
+  schema:rangeIncludes xsd:string .
+
+untp-dia:id a owl:DatatypeProperty, rdf:Property ;
+  rdfs:label "id" ;
+  rdfs:comment "The DID that is controlled by the registered member and is linked to the registeredID through this Identity Anchor credential" ;
+  schema:domainIncludes untp-dia:RegisteredIdentity ;
+  schema:rangeIncludes xsd:string .
+
+untp-dia:idScheme a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "idScheme" ;
+  rdfs:comment "An identifier registration scheme for products, facilities, or organisations. Typically operated by a state, national or global authority." ;
+  schema:domainIncludes untp-dia:RegisteredIdentity ;
+  schema:rangeIncludes untp-core:IdentifierScheme .
+
+untp-dia:mediaQuery a owl:DatatypeProperty, rdf:Property ;
+  rdfs:label "mediaQuery" ;
+  rdfs:comment "Media query as defined in https://www.w3.org/TR/mediaqueries-4/" ;
+  schema:domainIncludes untp-dia:RenderTemplate2024 ;
+  schema:rangeIncludes xsd:string .
+
+untp-dia:mediaType a owl:DatatypeProperty, rdf:Property ;
+  rdfs:label "mediaType" ;
+  rdfs:comment "content/media type for (possible) conneg on the above URL and certainly for display use" ;
+  schema:domainIncludes untp-dia:RenderTemplate2024 ;
+  schema:rangeIncludes xsd:string .
+
+untp-dia:name a owl:DatatypeProperty, rdf:Property ;
+  rdfs:label "name" ;
+  rdfs:comment "Human facing display name for selection", "Human facing display name for template", "The registered name of the entity within the identifier scheme.  Examples: product - EV battery 300Ah, Party - Sample Company Pty Ltd,  Facility - Green Acres battery factory" ;
+  schema:domainIncludes untp-dia:RegisteredIdentity, untp-dia:RenderTemplate2024, untp-dia:WebRenderingTemplate2022 ;
+  schema:rangeIncludes xsd:string .
+
+untp-dia:registerType a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "registerType" ;
+  rdfs:comment "The thematic purpose of the register - organisations, facilities, products, trademarks, etc" ;
+  schema:domainIncludes untp-dia:RegisteredIdentity ;
+  schema:rangeIncludes untp-dia:RegistryTypeCodeList .
+
+untp-dia:registeredId a owl:DatatypeProperty, rdf:Property ;
+  rdfs:label "registeredId" ;
+  rdfs:comment "The registration number (alphanumeric) of the entity within the register. Unique within the register." ;
+  schema:domainIncludes untp-dia:RegisteredIdentity ;
+  schema:rangeIncludes xsd:string .
+
+untp-dia:registrationScopeList a owl:DatatypeProperty, rdf:Property ;
+  rdfs:label "registrationScopeList" ;
+  rdfs:comment "List of URIs the represent the role/scopes of membership for the register. For example [\"https://abr.business.gov.au/Help/EntityTypeDescription?Id=19\"]" ;
+  schema:domainIncludes untp-dia:RegisteredIdentity ;
+  schema:rangeIncludes xsd:string .
+
+untp-dia:template a owl:DatatypeProperty, rdf:Property ;
+  rdfs:label "template" ;
+  rdfs:comment "An inline template field ", "An inline template field for use cases where remote retrieval of a render method is suboptimal" ;
+  schema:domainIncludes untp-dia:RenderTemplate2024, untp-dia:WebRenderingTemplate2022 ;
+  schema:rangeIncludes xsd:string .
+
+untp-dia:url a owl:DatatypeProperty, rdf:Property ;
+  rdfs:label "url" ;
+  rdfs:comment "URL for remotely hosted template" ;
+  schema:domainIncludes untp-dia:RenderTemplate2024 ;
+  schema:rangeIncludes xsd:string .
+
+<https://test.uncefact.org/vocabulary/untp/dia/0/RegistryTypeCodeList#Accreditation> a untp-dia:RegistryTypeCodeList ;
+  rdfs:label "Accreditation" ;
+  rdfs:comment "" ;
+  rdf:value "An accreditation register" .
+
+<https://test.uncefact.org/vocabulary/untp/dia/0/RegistryTypeCodeList#Business> a untp-dia:RegistryTypeCodeList ;
+  rdfs:label "Business" ;
+  rdfs:comment "" ;
+  rdf:value "A business register" .
+
+<https://test.uncefact.org/vocabulary/untp/dia/0/RegistryTypeCodeList#Facility> a untp-dia:RegistryTypeCodeList ;
+  rdfs:label "Facility" ;
+  rdfs:comment "" ;
+  rdf:value "A facility register" .
+
+<https://test.uncefact.org/vocabulary/untp/dia/0/RegistryTypeCodeList#Land> a untp-dia:RegistryTypeCodeList ;
+  rdfs:label "Land" ;
+  rdfs:comment "" ;
+  rdf:value "A land register" .
+
+<https://test.uncefact.org/vocabulary/untp/dia/0/RegistryTypeCodeList#Product> a untp-dia:RegistryTypeCodeList ;
+  rdfs:label "Product" ;
+  rdfs:comment "" ;
+  rdf:value "A product register" .
+
+<https://test.uncefact.org/vocabulary/untp/dia/0/RegistryTypeCodeList#Trademark> a untp-dia:RegistryTypeCodeList ;
+  rdfs:label "Trademark" ;
+  rdfs:comment "" ;
+  rdf:value "A trademark register" .
+
+

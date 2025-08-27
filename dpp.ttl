@@ -1,0 +1,196 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix schema: <https://schema.org/> .
+@prefix untp-core: <https://test.uncefact.org/vocabulary/untp/core/0/> .
+@prefix untp-dpp: <https://test.uncefact.org/vocabulary/untp/dpp/0/> .
+
+#################### Classes
+
+untp-dpp:DigitalProductPassport a rdfs:Class ;
+  rdfs:label "DigitalProductPassport" ;
+  rdfs:comment "The Product Passport is a comprehensive data structure that encapsulates various details pertaining to a product, including its identification details, who issued it, batch information, provenance information, circularity information and a set of verifiable product conformity & sustainability claims. " ;
+  rdfs:subClassOf "untp-core:VerifiableCredential" .
+
+untp-dpp:ProductPassport a rdfs:Class ;
+  rdfs:label "ProductPassport" ;
+  rdfs:comment "The ProductClaim class encapsulates detailed information regarding a specific product, including its identification details, manufacturer, and other pertinent details, as well as information about the claims being made about the product. " .
+
+untp-dpp:RenderTemplate2024 a rdfs:Class ;
+  rdfs:label "RenderTemplate2024" ;
+  rdfs:comment "A single template format focused render method--where the content/media type decision becomes secondary (and is expressed separately).See https://github.com/w3c-ccg/vc-render-method/issues/9" ;
+  rdfs:subClassOf "untp-core:RenderTemplate2024" .
+
+untp-dpp:TraceabilityPerformance a rdfs:Class ;
+  rdfs:label "TraceabilityPerformance" ;
+  rdfs:comment "An array of secure links to TraceabilityEvent objects detailing EPCIS events related to the traceability of the product batch. Events are grouped by value chain process (eg \"Weaving\" in textiles supply chain)." .
+
+untp-dpp:WebRenderingTemplate2022 a rdfs:Class ;
+  rdfs:label "WebRenderingTemplate2022" ;
+  rdfs:comment "A simple (though non-standard) embedded template." ;
+  rdfs:subClassOf "untp-core:WebRenderingTemplate2022" .
+
+#################### Enumerations
+
+untp-dpp:eventTypeCode a rdfs:Class ;
+  rdfs:label "eventTypeCode" ;
+  rdfs:comment "A code describing the traceability event type - drawn from GS1 EPCIS 2.0" .
+
+untp-dpp:granularityCode a rdfs:Class ;
+  rdfs:label "granularityCode" ;
+  rdfs:comment "" .
+
+#################### Properties
+
+untp-dpp:circularityScorecard a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "circularityScorecard" ;
+  rdfs:comment "A circularity performance scorecard" ;
+  schema:domainIncludes untp-dpp:ProductPassport ;
+  schema:rangeIncludes untp-core:CircularityPerformance .
+
+untp-dpp:conformityClaim a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "conformityClaim" ;
+  rdfs:comment "An array of claim objects representing various product conformity claims about the product / batch.  These can be sustainability claims, circularity claims, or any other claim type within the conformity topic list." ;
+  schema:domainIncludes untp-dpp:ProductPassport ;
+  schema:rangeIncludes untp-core:Claim .
+
+untp-dpp:digestMultibase a owl:DatatypeProperty, rdf:Property ;
+  rdfs:label "digestMultibase" ;
+  rdfs:comment "Used for resource integrity and/or validation of the inline `template`" ;
+  schema:domainIncludes untp-dpp:RenderTemplate2024 ;
+  schema:rangeIncludes xsd:string .
+
+untp-dpp:dueDiligenceDeclaration a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "dueDiligenceDeclaration" ;
+  rdfs:comment "The due diligence declaration that conforms with the regulations of the market into which the product is sold." ;
+  schema:domainIncludes untp-dpp:ProductPassport ;
+  schema:rangeIncludes untp-core:Link .
+
+untp-dpp:emissionsScorecard a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "emissionsScorecard" ;
+  rdfs:comment "An emissions performance scorecard" ;
+  schema:domainIncludes untp-dpp:ProductPassport ;
+  schema:rangeIncludes untp-core:EmissionsPerformance .
+
+untp-dpp:granularityLevel a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "granularityLevel" ;
+  rdfs:comment "Code to indicate the granularity of this digital product passport - item level, batch level or product class level." ;
+  schema:domainIncludes untp-dpp:ProductPassport ;
+  schema:rangeIncludes untp-dpp:granularityCode .
+
+untp-dpp:id a owl:DatatypeProperty, rdf:Property ;
+  rdfs:label "id" ;
+  rdfs:comment "An id is not required in the data but jargon requires for blue class which won't redefine credentialSubject" ;
+  schema:domainIncludes untp-dpp:ProductPassport ;
+  schema:rangeIncludes xsd:string .
+
+untp-dpp:materialsProvenance a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "materialsProvenance" ;
+  rdfs:comment "An array of Provenance objects providing details on the origin and mass fraction of components or ingredients of the product batch. " ;
+  schema:domainIncludes untp-dpp:ProductPassport ;
+  schema:rangeIncludes untp-core:Material .
+
+untp-dpp:mediaQuery a owl:DatatypeProperty, rdf:Property ;
+  rdfs:label "mediaQuery" ;
+  rdfs:comment "Media query as defined in https://www.w3.org/TR/mediaqueries-4/" ;
+  schema:domainIncludes untp-dpp:RenderTemplate2024 ;
+  schema:rangeIncludes xsd:string .
+
+untp-dpp:mediaType a owl:DatatypeProperty, rdf:Property ;
+  rdfs:label "mediaType" ;
+  rdfs:comment "content/media type for (possible) conneg on the above URL and certainly for display use" ;
+  schema:domainIncludes untp-dpp:RenderTemplate2024 ;
+  schema:rangeIncludes xsd:string .
+
+untp-dpp:name a owl:DatatypeProperty, rdf:Property ;
+  rdfs:label "name" ;
+  rdfs:comment "Human facing display name for selection", "Human facing display name for template" ;
+  schema:domainIncludes untp-dpp:RenderTemplate2024, untp-dpp:WebRenderingTemplate2022 ;
+  schema:rangeIncludes xsd:string .
+
+untp-dpp:product a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "product" ;
+  rdfs:comment "The ProductInformation class encapsulates detailed information regarding a specific product, including its identification details, manufacturer, and other pertinent details." ;
+  schema:domainIncludes untp-dpp:ProductPassport ;
+  schema:rangeIncludes untp-core:Product .
+
+untp-dpp:template a owl:DatatypeProperty, rdf:Property ;
+  rdfs:label "template" ;
+  rdfs:comment "An inline template field ", "An inline template field for use cases where remote retrieval of a render method is suboptimal" ;
+  schema:domainIncludes untp-dpp:RenderTemplate2024, untp-dpp:WebRenderingTemplate2022 ;
+  schema:rangeIncludes xsd:string .
+
+untp-dpp:traceabilityEvent a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "traceabilityEvent" ;
+  rdfs:comment "A list of secure links to digital traceability events that support this traceability performance statement. May be encrypted for confidentiality purposes. " ;
+  schema:domainIncludes untp-dpp:TraceabilityPerformance ;
+  schema:rangeIncludes untp-core:SecureLink .
+
+untp-dpp:traceabilityInformation a owl:ObjectProperty, rdf:Property ;
+  rdfs:label "traceabilityInformation" ;
+  rdfs:comment "An array of traceability events grouped by value chain process.  Where actual traceability events are unavailable or carry sensitive information, passport publishers may specify the extent to which the traceability information has been independently verified. " ;
+  schema:domainIncludes untp-dpp:ProductPassport ;
+  schema:rangeIncludes untp-dpp:TraceabilityPerformance .
+
+untp-dpp:url a owl:DatatypeProperty, rdf:Property ;
+  rdfs:label "url" ;
+  rdfs:comment "URL for remotely hosted template" ;
+  schema:domainIncludes untp-dpp:RenderTemplate2024 ;
+  schema:rangeIncludes xsd:string .
+
+untp-dpp:valueChainProcess a owl:DatatypeProperty, rdf:Property ;
+  rdfs:label "valueChainProcess" ;
+  rdfs:comment "Human readable name for the industry specific value chain process representing this traceability data set." ;
+  schema:domainIncludes untp-dpp:TraceabilityPerformance ;
+  schema:rangeIncludes xsd:string .
+
+untp-dpp:verifiedRatio a owl:DatatypeProperty, rdf:Property ;
+  rdfs:label "verifiedRatio" ;
+  rdfs:comment "The proportion (0 to 1) of materials in this value chain process that have been  traced using verifiable traceability event." ;
+  schema:domainIncludes untp-dpp:TraceabilityPerformance ;
+  schema:rangeIncludes xsd:double .
+
+#################### Enumeration Values
+
+<https://test.uncefact.org/vocabulary/untp/dpp/0/eventTypeCode#aggregation> a untp-dpp:eventTypeCode ;
+  rdfs:label "Aggregation event" ;
+  rdfs:comment "event describing the grouping of products such as placing bales of cotton on a pallet" ;
+  rdf:value "aggregation" .
+
+<https://test.uncefact.org/vocabulary/untp/dpp/0/eventTypeCode#association> a untp-dpp:eventTypeCode ;
+  rdfs:label "Association event" ;
+  rdfs:comment "event describing the creation of relationships between products such as a bill of material of components in an assembly" ;
+  rdf:value "association" .
+
+<https://test.uncefact.org/vocabulary/untp/dpp/0/eventTypeCode#object> a untp-dpp:eventTypeCode ;
+  rdfs:label "Object event" ;
+  rdfs:comment "event describing an action on a single product such as an inspection or test" ;
+  rdf:value "object" .
+
+<https://test.uncefact.org/vocabulary/untp/dpp/0/eventTypeCode#transaction> a untp-dpp:eventTypeCode ;
+  rdfs:label "Transaction event" ;
+  rdfs:comment "event describing commercial transactions such as the sale of a collection of products from seller to buyer" ;
+  rdf:value "transaction" .
+
+<https://test.uncefact.org/vocabulary/untp/dpp/0/eventTypeCode#transformation> a untp-dpp:eventTypeCode ;
+  rdfs:label "Transformation Event" ;
+  rdfs:comment "event describing the consumption of input products to create output products in a manufacturing process such as spinning thread from cotton bales." ;
+  rdf:value "transformation" .
+
+<https://test.uncefact.org/vocabulary/untp/dpp/0/granularityCode#batch> a untp-dpp:granularityCode ;
+  rdfs:label "production batch level product passport" ;
+  rdfs:comment "" ;
+  rdf:value "batch" .
+
+<https://test.uncefact.org/vocabulary/untp/dpp/0/granularityCode#item> a untp-dpp:granularityCode ;
+  rdfs:label "serialised item level product passport" ;
+  rdfs:comment "" ;
+  rdf:value "item" .
+
+<https://test.uncefact.org/vocabulary/untp/dpp/0/granularityCode#model> a untp-dpp:granularityCode ;
+  rdfs:label "model / class level product passport." ;
+  rdfs:comment "" ;
+  rdf:value "model" .
+
+
