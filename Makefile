@@ -17,5 +17,8 @@ all: core.jsonld dpp.jsonld dcc.jsonld dfr.jsonld dte.jsonld dia.jsonld \
 
 duplicate-terms.txt::
 	perl -ne 'print if s{^un.*?:(.*? ).*}{^un.*:$$1}' *.ttl | sort | uniq -d > temp.txt
-	grep -hof temp.txt *.ttl |sort -t: -k2 > $@
+	#d2u temp.txt
+	grep -hof temp.txt *.ttl | /usr/bin/sort -t: -k2 > $@
 	rm temp.txt
+	cut -d: -f1 duplicate-terms.txt|sort|uniq -c > duplicate-count-namespaces.txt
+	cut -d: -f2 duplicate-terms.txt|sort|uniq -c > duplicate-count-terms.txt
